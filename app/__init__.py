@@ -42,7 +42,7 @@ def compare_versions(ver1, ver2, path=None):
         except Exception as e:
             return str(e)
     files = sorted(list(vers[1] - vers[0]))
-    return render_template('compare.html', files=files)
+    return render_template('compare.html', files=files, ver1=ver1, ver2=ver2)
 
 if __name__ == '__main__':
     app.run(debug=True)
