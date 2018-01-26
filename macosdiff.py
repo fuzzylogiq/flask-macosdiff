@@ -22,8 +22,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-
-from flask import Flask
+import io
+from flask import Flask, render_template
 app = Flask(__name__)
 
 @app.route('/')
@@ -36,12 +36,13 @@ def compare_versions(ver1, ver2, path=None):
     vers = []
     for ver in ver1, ver2:
         try:
-            with open(ver + '.txt', 'r') as f:
-                ver_set = set(line.strip() for line in f)
+            with io.open(ver + '.txt', 'r', encoding='utf-8') as f:
+                ver_set = set(line.strip() for line in f if line.startswith("./%s" % path))
                 vers.append(ver_set)
         except Exception as e:
             return str(e)
-    return str(list(vers[1] - vers[0]))
+    files = sorted(list(vers[1] - vers[0]))
+    return render_template('compare.html', files=files)
 
 if __name__ == '__main__':
     app.run(debug=True)
