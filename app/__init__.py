@@ -36,8 +36,8 @@ def compare_select():
     versions = [os.path.splitext(file)[0] for file in ls if re.match(macos_re, file)]
     return render_template('select.html', versions=versions)
 
-@app.route('/compare/<ver1>/<ver2>')
-@app.route('/compare/<ver1>/<ver2>/<path:path>')
+@app.route('/compare/<ver1>/<ver2>', methods=['POST', 'GET'])
+@app.route('/compare/<ver1>/<ver2>/<path:path>', methods=['POST', 'GET'])
 def compare_versions(ver1, ver2, path=None):
     vers = []
     for ver in ver1, ver2:
