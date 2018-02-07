@@ -3,7 +3,12 @@
   <body>
     <form action="/compare">
     Select versions to compare:
-    <select name="compare_select">
+    <select name="ver1">
+      {% for v in versions %}
+      <option value="{{ v }}">{{ v }}</option>
+      {% endfor %}
+    </select>
+    <select name="ver2">
       {% for v in versions %}
       <option value="{{ v }}">{{ v }}</option>
       {% endfor %}
