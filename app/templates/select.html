@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+  <body>
+    <form action="/compare">
+    Select versions to compare:
+    <select name="compare_select">
+      {% for v in versions %}
+      <option value="{{ v }}">{{ v }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Compare</button>
+    </form>
+  </body>
+</html>
+

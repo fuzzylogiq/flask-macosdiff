@@ -23,12 +23,18 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import io
+import os
+import os.path
+import re
 from flask import Flask, render_template
 app = Flask(__name__)
 
 @app.route('/')
-def you_found_me():
-    return 'You found me!'
+def compare_select():
+    macos_re = r'10\.\d+\.\d+\.txt'
+    ls = os.listdir('.')
+    versions = [os.path.splitext(file)[0] for file in ls if re.match(macos_re, file)]
+    return render_template('select.html', versions=versions)
 
 @app.route('/compare/<ver1>/<ver2>')
 @app.route('/compare/<ver1>/<ver2>/<path:path>')
