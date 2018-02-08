@@ -26,7 +26,7 @@ import io
 import os
 import os.path
 import re
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 app = Flask(__name__)
 
 @app.route('/')
@@ -34,12 +34,17 @@ def compare_select():
     macos_re = r'10\.\d+\.\d+\.txt'
     ls = os.listdir('.')
     versions = [os.path.splitext(file)[0] for file in ls if re.match(macos_re, file)]
-    return render_template('select.html', versions=versions)
+    return render_template('select.html', versions=sorted(versions))
 
-@app.route('/compare/<ver1>/<ver2>', methods=['POST', 'GET'])
-@app.route('/compare/<ver1>/<ver2>/<path:path>', methods=['POST', 'GET'])
-def compare_versions(ver1, ver2, path=None):
+@app.route('/compare/<ver1>/<ver2>', methods=['GET'])
+@app.route('/compare/<ver1>/<ver2>/<path:path>', methods=['GET'])
+@app.route('/compare', methods=['POST'])
+def compare_versions(ver1=None, ver2=None, path=""):
     vers = []
+    if request.method == "POST":
+        ver1 = request.form["ver1"]
+        ver2 = request.form["ver2"]
+        path = request.form["path"].lstrip('/')
     for ver in ver1, ver2:
         try:
             with io.open(ver + '.txt', 'r', encoding='utf-8') as f:

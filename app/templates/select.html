@@ -1,18 +1,19 @@
 <!doctype html>
 <html>
   <body>
-    <form action="/compare">
-    Select versions to compare:
+    <form action="{{ url_for('compare_versions') }}" method="POST">
+      Select versions to compare:<br/>
     <select name="ver1">
       {% for v in versions %}
       <option value="{{ v }}">{{ v }}</option>
       {% endfor %}
-    </select>
+    </select><br/>
     <select name="ver2">
       {% for v in versions %}
       <option value="{{ v }}">{{ v }}</option>
       {% endfor %}
-    </select>
+    </select><br/>
+    <input type="text" name="path"><br/>
     <button type="submit">Compare</button>
     </form>
   </body>
