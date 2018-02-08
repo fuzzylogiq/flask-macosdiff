@@ -31,7 +31,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def compare_select():
-    macos_re = r'10\.\d+\.\d+\.txt'
+    macos_re = r'10\.\d+\..+\.txt'
     ls = os.listdir('.')
     versions = [os.path.splitext(file)[0] for file in ls if re.match(macos_re, file)]
     return render_template('select.html', versions=sorted(versions))
