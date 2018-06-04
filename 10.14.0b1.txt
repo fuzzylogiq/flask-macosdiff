@@ -1,0 +1,15 @@
+.
+./usr
+./usr/standalone
+./usr/standalone/i386
+./usr/standalone/i386/SecureBoot.bundle
+./usr/standalone/i386/SecureBoot.bundle/Contents
+./usr/standalone/i386/SecureBoot.bundle/Contents/Info.plist
+./usr/standalone/i386/SecureBoot.bundle/Contents/Resources
+./usr/standalone/i386/SecureBoot.bundle/Contents/Resources/BuildManifest.plist
+./usr/standalone/i386/SecureBoot.bundle/Contents/_CodeSignature
+./usr/standalone/i386/SecureBoot.bundle/Contents/_CodeSignature/CodeDirectory
+./usr/standalone/i386/SecureBoot.bundle/Contents/_CodeSignature/CodeRequirements
+./usr/standalone/i386/SecureBoot.bundle/Contents/_CodeSignature/CodeResources
+./usr/standalone/i386/SecureBoot.bundle/Contents/_CodeSignature/CodeSignature
+./usr/standalone/i386/SecureBoot.bundle/Contents/version.plist
