@@ -27,7 +27,10 @@ import os
 import os.path
 import re
 from flask import Flask, render_template, request
+from flask_bootstrap import Bootstrap
+
 app = Flask(__name__)
+Bootstrap(app)
 
 @app.route('/')
 def compare_select():
@@ -56,4 +59,4 @@ def compare_versions(ver1=None, ver2=None, path=""):
     return render_template('compare.html', files=files, ver1=ver1, ver2=ver2)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

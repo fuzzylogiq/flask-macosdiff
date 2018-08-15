@@ -1,6 +1,6 @@
-<!doctype html>
-<html>
-  <body>
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/google.html" %}
+{% block content %}
     <form action="{{ url_for('compare_versions') }}" method="POST">
       Select versions to compare:<br/>
     <select name="ver1">
@@ -17,6 +17,9 @@
     <input type="text" name="path"><br/>
     <button type="submit">Compare</button>
     </form>
-  </body>
-</html>
+{% endblock %}
+{% block scripts %}
+  {{super()}}
+  {{google.uanalytics('UA-123963801-1')}}
+{% endblock %}
 

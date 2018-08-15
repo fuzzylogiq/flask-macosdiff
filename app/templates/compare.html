@@ -1,13 +1,14 @@
-<!doctype html>
-<html>
-  <body>
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/google.html" as google %}
+{% block content %}
     Present in {{ ver2 }} but not {{ ver1 }}
     <ul>
-     {% for file in files %}
-     <li> {{ file }} </li>
-     {% endfor %}
+     {% for file in files %}<li>{{ file }}</li>{% endfor %}
     </ul>
   </body>
-</html>
-
+{% endblock %}
+{% block scripts %}
+{{super()}}
+{{google.uanalytics('UA-123963801-1')}}
+{% endblock %}
     
