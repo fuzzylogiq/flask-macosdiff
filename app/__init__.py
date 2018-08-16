@@ -51,7 +51,7 @@ def compare_versions(ver1=None, ver2=None, path=""):
     for ver in ver1, ver2:
         try:
             with io.open(ver + '.txt', 'r', encoding='utf-8') as f:
-                ver_set = set(line.strip() for line in f if line.startswith("./%s" % path))
+                ver_set = set(line.strip().lstrip('.') for line in f if line.startswith("./%s" % path))
                 vers.append(ver_set)
         except Exception as e:
             return str(e)

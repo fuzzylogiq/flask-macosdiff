@@ -1,22 +1,35 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/google.html" as google %}
 {% block content %}
-    <form action="{{ url_for('compare_versions') }}" method="POST">
-      Select versions to compare:<br/>
-    <select name="ver1">
-      {% for v in versions %}
-      <option value="{{ v }}">{{ v }}</option>
-      {% endfor %}
-    </select><br/>
-    <select name="ver2">
-      {% for v in versions %}
-      <option value="{{ v }}">{{ v }}</option>
-      {% endfor %}
-    </select><br/>
-    (Optional) Enter a path to filter by e.g. /usr/sbin:
-    <input type="text" name="path"><br/>
-    <button type="submit">Compare</button>
+<div class="container">
+  <h1>macOSdiff - compare files installed by two versions of macOS</h1>
+  <div class="panel panel-default">
+    <div class="panel-body">
+     <form action="{{ url_for('compare_versions') }}" method="POST">
+       <div class="form-group">
+         <label>Select versions to compare:</label>
+       </div>
+       <div class="form-group">
+         <select class="form-control" name="ver1" id="ver1">
+         {% for v in versions %}
+           <option value="{{ v }}">{{ v }}</option>
+          {% endfor %}
+         </select>
+         <select class="form-control" name="ver2" id="ver1">
+         {% for v in versions %}
+           <option value="{{ v }}">{{ v }}</option>
+         {% endfor %}
+         </select>
+      </div>
+      <div class="form-group">
+        <label for="path">(Optional) Enter a path to filter by:</label>
+        <input type="text" class="form-control" name="path" placeholder="e.g. /usr/sbin"><br/>
+     </div>
+    <button type="submit" class="btn btn-primary">Compare</button>
     </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
 {% block scripts %}
   {{super()}}

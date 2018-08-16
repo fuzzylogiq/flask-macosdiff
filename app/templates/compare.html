@@ -1,11 +1,12 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/google.html" as google %}
 {% block content %}
-    Present in {{ ver2 }} but not {{ ver1 }}
-    <ul>
+<div class="container">
+  <h1>Present in {{ ver2 }} but not {{ ver1 }}</h1>
+    <ul class="list-unstyled">
      {% for file in files %}<li>{{ file }}</li>{% endfor %}
     </ul>
-  </body>
+</div>
 {% endblock %}
 {% block scripts %}
 {{super()}}
