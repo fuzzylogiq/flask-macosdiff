@@ -49,6 +49,10 @@ def compare_versions(ver1=None, ver2=None, path="", exclude=""):
         ver2 = request.form["ver2"]
         path = request.form["path"]
         exclude = request.form["exclude"]
+
+    if exclude == "":
+        exclude = "$^"
+
     for ver in ver1, ver2:
         try:
             with io.open(ver + '.txt', 'r', encoding='utf-8') as f:
