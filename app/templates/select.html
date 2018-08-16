@@ -21,7 +21,9 @@
       </div>
       <div class="form-group">
         <label for="path">(Optional) Enter a path to filter by:</label>
-        <input type="text" class="form-control" name="path" placeholder="e.g. /usr/sbin"><br/>
+        <input type="text" class="form-control" name="path" placeholder="e.g. /usr/sbin">
+        <label for="exclude">(Optional) Regex to exlude:</label>
+        <input type="text" class="form-control" name="exclude" placeholder="e.g. .*lproj.*">
      </div>
     <button type="submit" class="btn btn-primary pull-right">Compare</button>
     </form>
