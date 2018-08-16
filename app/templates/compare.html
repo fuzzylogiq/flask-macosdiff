@@ -2,9 +2,13 @@
 {% import "bootstrap/google.html" as google %}
 {% block content %}
 <div class="container">
-  <h1>Present in {{ ver2 }} but not {{ ver1 }}</h1>
-    <ul class="list-unstyled">
-     {% for file in files %}<li>{{ file }}</li>{% endfor %}
+  <h1>Present in {{ ver2 }} but not {{ ver1 }}
+    {% if path %}<small>(filtering on {{ path }})</small>
+    {%- endif -%}</h1>
+    <ul class="list-group">
+      {% for file in files -%}
+      <li class="list-group-item">{{ file }}</li>
+      {% endfor -%}
     </ul>
 </div>
 {% endblock %}
