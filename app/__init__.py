@@ -42,18 +42,18 @@ def compare_select():
 @app.route('/compare/<ver1>/<ver2>', methods=['GET'])
 @app.route('/compare/<ver1>/<ver2>/<path:path>', methods=['GET'])
 @app.route('/compare', methods=['POST'])
-def compare_versions(ver1=None, ver2=None, path=""):
+def compare_versions(ver1=None, ver2=None, path="", exclude=""):
     vers = []
     if request.method == "POST":
         ver1 = request.form["ver1"]
         ver2 = request.form["ver2"]
-        path = request.form["path"].lstrip('/')
-        exclude = re.compile(request.form["exclude"])
+        path = request.form["path"]
+        exclude = request.form["exclude"]
     for ver in ver1, ver2:
         try:
             with io.open(ver + '.txt', 'r', encoding='utf-8') as f:
                 ver_set = set(line.strip().lstrip('.')
-                              for line in f if line.startswith("./%s" % path)
+                              for line in f if line.startswith('.%s' % path)
                               and not re.match(exclude, line))
                 vers.append(ver_set)
         except Exception as e:
@@ -63,7 +63,8 @@ def compare_versions(ver1=None, ver2=None, path=""):
                            files=files,
                            ver1=ver1,
                            ver2=ver2,
-                           path=path)
+                           path=path,
+                           exclude=exclude)
 
 if __name__ == '__main__':
     app.run()
