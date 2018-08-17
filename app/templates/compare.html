@@ -2,11 +2,7 @@
 {% import "bootstrap/google.html" as google %}
 {% block content %}
 <div class="container">
-  <h1>Present in {{ ver2 }} but not {{ ver1 }}
-    {%- if path and not exclude %}<small> (filtering on {{ path }})</small>{%- endif -%}
-    {%- if path and exclude %}<small> (filtering on {{ path }} excluding "{{ exclude }})"</small>{%- endif -%}
-    {%- if exclude and not path %}<small> (excluding "{{ exclude }}")</small>{%- endif -%}
-  </h1>
+  <h1>Present in {{ ver2 }} but not {{ ver1 }}{%- if path or exclude %}<small> ({%- if path -%}filtering on {{ path }} {%- if exclude %} excluding "{{ exclude }}"{%- endif -%}{%- endif -%})</small>{%- endif -%}</h1>
     <ul class="list-group">
       {% for file in files -%}
       <li class="list-group-item" style="word-wrap:break-word;">{{ file }}</li>
