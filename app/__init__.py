@@ -50,18 +50,21 @@ def compare_versions(ver1=None, ver2=None, path="", exclude=""):
         path = request.form["path"]
         exclude = request.form["exclude"]
 
-    if exclude == "":
-        exclude = "$^"
-
     for ver in ver1, ver2:
         try:
             with io.open(ver + '.txt', 'r', encoding='utf-8') as f:
-                ver_set = set(line.strip().lstrip('.')
-                              for line in f if line.startswith('.%s' % path)
-                              and not re.match(exclude, line))
+                lines = []
+                for line in f:
+                    line = line.strip().lstrip('.')
+                    if exclude and re.match(exclude, line):
+                        continue
+                    if line.startswith(path):
+                        lines.append(line)
+                ver_set = set(lines)
                 vers.append(ver_set)
         except Exception as e:
             return str(e)
+
     files = sorted(list(vers[1] - vers[0]))
     return render_template('compare.html',
                            files=files,
