@@ -26,46 +26,61 @@ import io
 import os
 import os.path
 import re
+import gzip
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
+from joblib import Memory
+
+cachedir = '.cache'
+datadir = 'data'
+memory = Memory(cachedir, verbose=11, compress=9)
 
 app = Flask(__name__)
 Bootstrap(app)
 
 @app.route('/')
 def compare_select():
-    macos_re = r'10\.\d+\..+\.txt'
-    ls = os.listdir('.')
-    versions = [os.path.splitext(file)[0] for file in ls if re.match(macos_re, file)]
+    versions = []
+    macos_re = r'(?P<version>10\.\d+\..+)\.txt\.gz'
+    ls = os.listdir(datadir)
+    for filename in ls:
+        m = re.match(macos_re, filename)
+        if m:
+            versions.append(m.groupdict()['version'])
     return render_template('select.html', versions=sorted(versions))
+
+@memory.cache
+def diff(ver1, ver2, path="", exclude=""):
+    vers = []
+    for ver in ver1, ver2:
+            try:
+                with gzip.open(datadir + '/' + ver + '.txt.gz', 'r') as f:
+                    lines = []
+                    for line in f:
+                        line = line.decode('utf-8')
+                        line = line.strip().lstrip('.')
+                        if exclude and re.match(exclude, line):
+                            continue
+                        if line.startswith(path):
+                            lines.append(line)
+                    ver_set = set(lines)
+                    vers.append(ver_set)
+            except Exception as e:
+                raise(e)
+
+    return sorted(list(vers[1] - vers[0]))
 
 @app.route('/compare/<ver1>/<ver2>', methods=['GET'])
 @app.route('/compare/<ver1>/<ver2>/<path:path>', methods=['GET'])
 @app.route('/compare', methods=['POST'])
 def compare_versions(ver1=None, ver2=None, path="", exclude=""):
-    vers = []
     if request.method == "POST":
         ver1 = request.form["ver1"]
         ver2 = request.form["ver2"]
         path = request.form["path"]
         exclude = request.form["exclude"]
 
-    for ver in ver1, ver2:
-        try:
-            with io.open(ver + '.txt', 'r', encoding='utf-8') as f:
-                lines = []
-                for line in f:
-                    line = line.strip().lstrip('.')
-                    if exclude and re.match(exclude, line):
-                        continue
-                    if line.startswith(path):
-                        lines.append(line)
-                ver_set = set(lines)
-                vers.append(ver_set)
-        except Exception as e:
-            return str(e)
-
-    files = sorted(list(vers[1] - vers[0]))
+    files = diff(ver1, ver2, path, exclude)
     return render_template('compare.html',
                            files=files,
                            ver1=ver1,
