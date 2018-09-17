@@ -38,6 +38,12 @@ memory = Memory(cachedir, verbose=11, compress=9)
 app = Flask(__name__)
 Bootstrap(app)
 
+def atoi(text):
+    return int(text) if text.isdigit() else text
+
+def natural_keys(text):
+    return [ atoi(c) for c in re.split('(\d+)', text) ]
+
 @app.route('/')
 def compare_select():
     versions = []
@@ -47,7 +53,8 @@ def compare_select():
         m = re.match(macos_re, filename)
         if m:
             versions.append(m.groupdict()['version'])
-    return render_template('select.html', versions=sorted(versions))
+    print versions
+    return render_template('select.html', versions=sorted(versions, key=natural_keys))
 
 @memory.cache
 def diff(ver1, ver2, path="", exclude=""):
